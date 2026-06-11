@@ -1,112 +1,221 @@
-/* Boas PRÁTICAS - Comece pelo *(tudo) - 
-Reset CSS (IGUALAR TUDO)
-
-1- margin (distância externa)
-2- padding (distância interna)
-3- box-sizing (forma como calculamos tamanho)
+/* style.css — versão melhorada
+   Melhorias: variáveis, responsividade, acessibilidade, foco visível, transições.
 */
 
-/* TODAS AS SUAS APLICAÇÕES */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Inter", sans-serif;
+/* Variáveis para facilitar manutenção / theming */
+:root {
+  --bg: #09090b;
+  --surface: #141419;
+  --panel: #111114;
+  --muted-surface: #1e1e1e;
+  --code-bg: #0c0c0f;
+  --text: #fafafa;
+  --muted: #71717a;
+  --accent: #7c3aed;
+  --accent-2: #a78bfa;
+  --success: #22c55e;
+  --border: #27272a;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --gap: 24px;
 }
-/* Cores - 2 formas
-        1) O nome da cor
-        2) O código da cor
-*/
+
+/* Reset mínimo e box-sizing global */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Tipografia e corpo */
+html {
+  font-size: 16px; /* base: 1rem = 16px */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 body {
-    background: #09090b; /* Cor de Fundo */
-    color: #fafafa;  /* cor do texto */
-    padding: 60px 20px;
-    display: flex;
-    flex-direction: column;  /* um debaixo do outro */
-    align-items: center;  /* alinhar ao centro */
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 4rem 1.25rem; /* 64px 20px similar a original, usando rems é opcional */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  line-height: 1.4;
 }
 
-.etiqueta {
-    color: #ffffff;
-}
+/* Tipos e rótulos */
+.etiqueta { color: var(--text); }
 
 h1 {
-    font-size: 52px;/* Tamanho do texto */
-    font-weight: 800; /* grossura da fonte*/
-    color: #fafafa;
+  font-size: 3.25rem; /* ~52px */
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.05;
 }
 
-span {
-    color: #a78bfa;
-}
+span { color: var(--accent-2); }
 
 .subtitulo {
-    color: #71717a;
-    margin-top: 16px;
-    font-size: 18px;
+  color: var(--muted);
+  margin-top: 1rem;
+  font-size: 1.125rem; /* 18px */
 }
 
+/* Caixa de entrada: largura responsiva */
 .caixa-entrada {
-    width: 620px;
-    background: #141419;
-    border-radius: 16px;
-    padding: 12px;
-    margin-top: 30px;
-    display: flex;
+  width: min(62rem, 100%); /* 620px ≈ 38.75rem (usar 62rem para layout maior), aqui escolhi 62rem para escala */
+  max-width: 100%;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem;
+  margin-top: 1.875rem; /* 30px */
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+  border: 1px solid var(--border);
 }
 
+/* Texto editável e botão: layout flexível */
 textarea {
-   width: 80%;  /* largura */
-   resize: none;
-   outline: none;
-   background: transparent;
-   padding: 8px;
-   color: #fafafa;
-   font-size: 15px;
-   border: none;
+  flex: 1 1 auto;
+  min-height: 4.5rem;
+  resize: vertical;
+  background: transparent;
+  padding: 0.5rem;
+  color: var(--text);
+  font-size: 0.9375rem; /* 15px */
+  border: none;
+  outline: none;
+  caret-color: var(--accent);
+  line-height: 1.4;
 }
 
+/* Botão com foco acessível e transição */
 button {
-    width: 20%;
-    padding: 10px 24px;
-    color: #ffffff;
-    background: #7c3aed;
-    border: none; /* borda */
-    border-radius: 10px; /* arredondar a bordar */
-    cursor: pointer;  /* trocar o cursor do mouse */
-    font-weight: 600;
+  flex: 0 0 10.5rem; /* mantém largura confortável, mas não fixa demais */
+  padding: 0.625rem 1.5rem;
+  color: #ffffff;
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 150ms ease, transform 120ms ease, box-shadow 120ms ease;
+  align-self: center;
+  min-height: 2.75rem;
 }
 
+button:hover { filter: brightness(1.05); transform: translateY(-1px); }
+button:active { transform: translateY(0); }
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: none;
+}
+
+/* foco visível acessível */
+button:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* Resultado: responsivo e fluido */
 .caixa-resultado {
-    width: 1400px;
-    display: flex;
-    padding: 24px;
-    margin-top: 40px;
-    background: #111114;
-    border-radius: 12px;
-    border: 1px solid #27272a;
-    gap: 24px;
+  width: min(87.5rem, 100%); /* ~1400px */
+  display: flex;
+  flex-wrap: wrap; /* permite empilhar em telas menores */
+  padding: 1.5rem;
+  margin-top: 2.5rem;
+  background: var(--panel);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  gap: var(--gap);
+  justify-content: space-between;
 }
 
+/* Bloco de código (scroll, cores) */
 .bloco-codigo {
-    width: 30%;
-    background: #0c0c0f;
-    padding: 20px;
-    font-size: 12px;
-    color: #22c55e;
-    white-space: pre-wrap;  /* quebrar linha */
-    overflow: auto; /* scroll do mouse */
-    height: 600px;
-    border-radius: 12px;
-    border: 1px solid #27272a;
-    /* tamanho da borda / o tipo de borda / a cor da borda */
+  flex: 1 1 30%;
+  background: var(--code-bg);
+  padding: 1.25rem;
+  font-size: 0.8125rem; /* 13px */
+  color: var(--success);
+  white-space: pre-wrap;
+  overflow: auto;
+  min-height: 36rem; /* ~576px (ajustável) */
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  word-break: break-word;
 }
 
+/* Bloco de visualização do site */
 .bloco-site {
-    width: 70%;
-    height: 600px;
-    border: 1px solid #27272a;
-    border-radius: 12px;
-    background-color: #1e1e1e;
+  flex: 2 1 65%;
+  min-height: 36rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--muted-surface);
+  overflow: auto;
+  padding: 1rem;
 }
+
+/* Scrollbar WebKit leve para melhorar a aparência */
+.bloco-codigo::-webkit-scrollbar,
+.bloco-site::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+.bloco-codigo::-webkit-scrollbar-thumb,
+.bloco-site::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 8px;
+}
+.bloco-codigo::-webkit-scrollbar-track,
+.bloco-site::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Pequenas melhorias responsivas */
+@media (max-width: 900px) {
+  .caixa-entrada { padding: 0.5rem; }
+  button { flex-basis: 9rem; padding: 0.5rem 1rem; }
+  .bloco-codigo,
+  .bloco-site { min-height: 24rem; }
+}
+
+@media (max-width: 720px) {
+  body { padding: 2.5rem 1rem; }
+
+  .caixa-entrada {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .caixa-entrada textarea { width: 100%; min-height: 6rem; }
+  .caixa-entrada button { width: 100%; flex-basis: auto; }
+
+  .caixa-resultado {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .bloco-codigo,
+  .bloco-site {
+    flex: 1 1 100%;
+    width: 100%;
+    min-height: 18rem;
+  }
+}
+
+/* Considerar suporte a prefers-color-scheme se quiser tema automático */
+/* @media (prefers-color-scheme: light) { ... } */
